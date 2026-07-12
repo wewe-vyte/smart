@@ -1,6 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "installCommand": null,
+  "installCommand": "cd bloodmap_api && composer install --no-dev --prefer-dist --optimize-autoloader --no-interaction",
   "buildCommand": null,
   "functions": {
     "api/index.php": {
