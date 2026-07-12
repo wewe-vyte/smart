@@ -1,0 +1,11 @@
+{
+  "version": 3,
+  "builds": [
+    { "src": "bloodmap_api/public/index.php", "use": "@vercel/php" },
+    { "src": "bloodmap_api/public/**/*.{css,js,png,jpg,jpeg,svg,webp,ico,woff,woff2,eot,ttf,json,txt,xml}", "use": "@vercel/static" }
+  ],
+  "routes": [
+    { "src": "/(.*\\.(?:css|js|png|jpg|jpeg|svg|webp|ico|woff|woff2|eot|ttf|json|txt|xml))$", "dest": "/bloodmap_api/public/$1" },
+    { "src": "/(.*)", "dest": "/bloodmap_api/public/index.php" }
+  ]
+}
