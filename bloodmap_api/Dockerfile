@@ -1,5 +1,6 @@
 FROM php:8.2-fpm
 
+ARG CACHEBUST=1
 ENV DEBIAN_FRONTEND=noninteractive
 WORKDIR /var/www/html
 
@@ -15,13 +16,20 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libicu-dev \
     libonig-dev \
     libxml2-dev \
+    libpq-dev \
     libzip-dev \
     zip \
     nginx \
     nodejs \
     npm \
     && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
-    && docker-php-ext-install pdo_mysql mbstring zip exif bcmath pcntl gd intl \
+    && docker-php-ext-install pdo_mysql pdo_pgsql pgsql mbstring zip exif bcmath pcntl gd intl \
+    && docker-php-ext-enable pdo_pgsql pgsql \
+    && ls /usr/local/lib/php/extensions/no-debug-non-zts-* | grep -E 'pdo_pgsql|pgsql' \
+    && php -m | grep -q 'pdo_pgsql' \
+    && php -m | grep -q 'pgsql' \
+    && php -i | grep -i 'pdo_pgsql' \
+    && php -r 'var_export(PDO::getAvailableDrivers());' \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
