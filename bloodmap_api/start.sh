@@ -39,6 +39,8 @@ php artisan view:clear --no-interaction || true
 php artisan cache:clear --no-interaction || true
 # Remove any stale cached config file to prevent old DB values being used
 rm -f bootstrap/cache/config.php || true
+# Run migrations before caching configuration and routes
+php artisan migrate --force --no-interaction || true
 php artisan config:cache --no-interaction || true
 php artisan route:cache --no-interaction || true
 php artisan view:cache --no-interaction || true

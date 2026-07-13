@@ -15,13 +15,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libicu-dev \
     libonig-dev \
     libxml2-dev \
+    libpq-dev \
     libzip-dev \
     zip \
     nginx \
     nodejs \
     npm \
     && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
-    && docker-php-ext-install pdo_mysql mbstring zip exif bcmath pcntl gd intl \
+    && docker-php-ext-install pdo_mysql pdo_pgsql pgsql mbstring zip exif bcmath pcntl gd intl \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
