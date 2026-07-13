@@ -26,10 +26,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-COPY composer.json composer.lock package.json ./
+COPY . .
 RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
 
-COPY . .
 RUN if [ -f package.json ]; then npm install --no-audit --no-fund && npm run build; fi \
     && chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html \
