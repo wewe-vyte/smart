@@ -36,6 +36,6 @@ services:
 
 databases:
   - name: bloodmap-db
-    databaseName: bloodmap
-    user: bloodmap
+    databaseName: blood_ph
+    user: blood_ph
     plan: free
