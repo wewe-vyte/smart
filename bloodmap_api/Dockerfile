@@ -27,6 +27,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 COPY . .
+RUN rm -f bootstrap/cache/config.php || true
 RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
 
 RUN if [ -f package.json ]; then npm install --no-audit --no-fund && npm run build; fi \
