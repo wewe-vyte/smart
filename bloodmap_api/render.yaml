@@ -14,28 +14,12 @@ services:
       - key: DB_CONNECTION
         value: mysql
       - key: DB_HOST
-        fromDatabase:
-          name: bloodmap-db
-          property: host
+        value: ""
       - key: DB_PORT
-        fromDatabase:
-          name: bloodmap-db
-          property: port
+        value: "3306"
       - key: DB_DATABASE
-        fromDatabase:
-          name: bloodmap-db
-          property: database
+        value: blood_ph
       - key: DB_USERNAME
-        fromDatabase:
-          name: bloodmap-db
-          property: user
+        value: ""
       - key: DB_PASSWORD
-        fromDatabase:
-          name: bloodmap-db
-          property: password
-
-databases:
-  - name: bloodmap-db
-    databaseName: blood_ph
-    user: blood_ph
-    plan: free
+        value: ""
