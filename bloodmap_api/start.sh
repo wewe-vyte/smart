@@ -4,7 +4,11 @@ set -e
 cd /var/www/html
 
 if [ ! -f .env ]; then
-    cp .env.example .env 2>/dev/null || true
+    if [ "${APP_ENV:-}" = "production" ]; then
+        echo "Production environment detected and .env missing — skipping .env.example copy to avoid overriding environment variables"
+    else
+        cp .env.example .env 2>/dev/null || true
+    fi
 fi
 
 export CACHE_STORE=${CACHE_STORE:-file}
@@ -29,6 +33,8 @@ php artisan config:clear
 php artisan route:clear
 php artisan view:clear
 php artisan cache:clear || true
+# Remove any stale cached config file to prevent old DB values being used
+rm -f bootstrap/cache/config.php || true
 php artisan config:cache
 php artisan route:cache
 php artisan view:cache
