@@ -17,8 +17,12 @@ export SESSION_DRIVER=${SESSION_DRIVER:-file}
 echo "Starting Laravel with DB_HOST=${DB_HOST:-unset} DB_DATABASE=${DB_DATABASE:-unset} CACHE_STORE=$CACHE_STORE SESSION_DRIVER=$SESSION_DRIVER"
 
 mkdir -p storage/framework/cache storage/framework/sessions storage/framework/views bootstrap/cache
+# ensure data dir for file cache exists
+mkdir -p storage/framework/cache/data
 chown -R www-data:www-data storage bootstrap/cache
+chown -R www-data:www-data storage/framework/cache/data
 chmod -R 775 storage bootstrap/cache
+chmod -R 775 storage/framework/cache/data
 
 if [ ! -L public/storage ]; then
     php artisan storage:link || true
@@ -28,16 +32,16 @@ if [ -z "$APP_KEY" ] && ! grep -q '^APP_KEY=' .env 2>/dev/null; then
     php artisan key:generate --force --no-interaction >/dev/null 2>&1 || true
 fi
 
-php artisan optimize:clear || true
-php artisan config:clear
-php artisan route:clear
-php artisan view:clear
-php artisan cache:clear || true
+php artisan optimize:clear --no-interaction || true
+php artisan config:clear --no-interaction || true
+php artisan route:clear --no-interaction || true
+php artisan view:clear --no-interaction || true
+php artisan cache:clear --no-interaction || true
 # Remove any stale cached config file to prevent old DB values being used
 rm -f bootstrap/cache/config.php || true
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
+php artisan config:cache --no-interaction || true
+php artisan route:cache --no-interaction || true
+php artisan view:cache --no-interaction || true
 
 php-fpm -D
 nginx -g 'daemon off;'
