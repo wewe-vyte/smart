@@ -35,6 +35,7 @@ RUN if [ -f package.json ]; then npm install --no-audit --no-fund && npm run bui
     && cp start.sh /usr/local/bin/start.sh \
     && chmod +x /usr/local/bin/start.sh
 
+RUN rm -f /etc/nginx/sites-enabled/default /etc/nginx/conf.d/default.conf
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
 CMD ["/usr/local/bin/start.sh"]

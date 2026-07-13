@@ -19,6 +19,11 @@ if [ -z "$APP_KEY" ] && ! grep -q '^APP_KEY=' .env 2>/dev/null; then
     php artisan key:generate --force --no-interaction >/dev/null 2>&1 || true
 fi
 
+php artisan optimize:clear
+php artisan config:clear
+php artisan route:clear
+php artisan view:clear
+php artisan cache:clear || true
 php artisan config:cache
 php artisan route:cache
 php artisan view:cache
