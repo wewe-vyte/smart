@@ -14,7 +14,16 @@ fi
 export CACHE_STORE=${CACHE_STORE:-file}
 export SESSION_DRIVER=${SESSION_DRIVER:-file}
 
-echo "Starting Laravel with DB_HOST=${DB_HOST:-unset} DB_DATABASE=${DB_DATABASE:-unset} CACHE_STORE=$CACHE_STORE SESSION_DRIVER=$SESSION_DRIVER"
+echo "Starting Laravel with DB_CONNECTION=${DB_CONNECTION:-unset} DB_HOST=${DB_HOST:-unset} DB_PORT=${DB_PORT:-unset} DB_DATABASE=${DB_DATABASE:-unset} DB_USERNAME=${DB_USERNAME:-unset} DB_SSLMODE=${DB_SSLMODE:-unset} CACHE_STORE=$CACHE_STORE SESSION_DRIVER=$SESSION_DRIVER"
+
+echo "PHP binary: $(which php)"
+echo "PHP version: $(php -v | head -n 1)"
+echo "Loaded PHP modules: $(php -m | grep -E 'pdo|pgsql' | tr '\n' ' ')"
+echo "PDO drivers: $(php -r 'echo implode(",",PDO::getAvailableDrivers());')"
+
+echo "Environment loaded from Render dashboard and .env if present"
+
+echo "---"
 
 mkdir -p storage/framework/cache storage/framework/sessions storage/framework/views bootstrap/cache
 # ensure data dir for file cache exists
